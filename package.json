@@ -23,5 +23,8 @@
     "detect-libc": "^1.0.3",
     "semver": "^6.3.0",
     "tar": "^4.4.13"
+  },
+  "devDependencies": {
+    "tape": "^5.0.0"
   }
 }
