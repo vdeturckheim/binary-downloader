@@ -1,0 +1,27 @@
+{
+  "name": "binary-downloader",
+  "version": "0.0.0",
+  "description": "Binary downloader - node-pre-gyp without node-gyp step",
+  "main": "index.js",
+  "bin": {
+    "binary-downloader": "bin/binary-downloader.js"
+  },
+  "scripts": {
+    "test": "tape"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vdeturckheim/binary-downloader.git"
+  },
+  "author": "vdeturckheim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vdeturckheim/binary-downloader/issues"
+  },
+  "homepage": "https://github.com/vdeturckheim/binary-downloader#readme",
+  "dependencies": {
+    "detect-libc": "^1.0.3",
+    "semver": "^6.3.0",
+    "tar": "^4.4.13"
+  }
+}
