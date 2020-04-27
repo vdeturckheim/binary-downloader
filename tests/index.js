@@ -15,16 +15,16 @@ Test('buildPath', (t) => {
     };
     if (NABI.getNAPIsForVersion(process.version).has(5)) {
         t.equal(Mod.buildPath(binPart.remote_path, binPart.package_name, binPart.napi_versions),
-            `nodejs/libsqreen/b20191003.5/${Os.platform()}/${Libc.version || 'unknown'}/${Os.arch()}/napi-v5.tar.gz`);
+            `nodejs/libsqreen/b20191003.5/${Os.platform()}/${Libc.family || 'unknown'}/${Os.arch()}/napi-v5.tar.gz`);
     }
     else if (NABI.getNAPIsForVersion(process.version).has(3)) {
         t.equal(Mod.buildPath(binPart.remote_path, binPart.package_name, binPart.napi_versions),
-            `nodejs/libsqreen/b20191003.5/${Os.platform()}/${Libc.version || 'unknown'}/${Os.arch()}/napi-v3.tar.gz`);
+            `nodejs/libsqreen/b20191003.5/${Os.platform()}/${Libc.family || 'unknown'}/${Os.arch()}/napi-v3.tar.gz`);
     }
     else {
         const abi = NABI.getABIForVersion(process.version);
         t.equal(Mod.buildPath(binPart.remote_path, binPart.package_name, binPart.napi_versions),
-            `nodejs/libsqreen/b20191003.5/${Os.platform()}/${Libc.version || 'unknown'}/${Os.arch()}/node-v${abi}.tar.gz`);
+            `nodejs/libsqreen/b20191003.5/${Os.platform()}/${Libc.family || 'unknown'}/${Os.arch()}/node-v${abi}.tar.gz`);
     }
     t.end();
 });

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test-unit": "./node_modules/.bin/tape tests/**/*.js tests/*.js",
-    "test-e2e": "node e2e/notfound/run.js && node e2e/subinstall/run.js",
+    "pretest-e2e": "npm pack . && node e2e/setup.js",
+    "test-e2e": "node e2e/notfound/index.js && node e2e/subinstall/index.js",
     "test": "npm run test-unit && npm run test-e2e"
   },
   "repository": {
