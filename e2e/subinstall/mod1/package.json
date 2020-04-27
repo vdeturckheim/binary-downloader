@@ -1,0 +1,26 @@
+{
+  "name": "mod1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "binary-downloader",
+    "build": "npm pack ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "binary-downloader": "file:../../.."
+  },
+  "binary": {
+    "module_name": "libsqreen",
+    "module_path": "./bindings/{node_napi_label}",
+    "remote_path": "./nodejs/libsqreen/b20191003.5/{platform}-{libc}/{arch}/",
+    "package_name": "{node_napi_label}.tar.gz",
+    "host": "https://sqreen-download-public.s3-eu-west-1.amazonaws.com/",
+    "napi_versions": [
+      3
+    ]
+  }
+}

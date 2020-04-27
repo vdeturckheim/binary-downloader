@@ -51,11 +51,11 @@ const resolve = function (str, targetNapi) {
     return str;
 };
 
-const buildPath = function (remotePath, packageName, targetNapi) {
+const buildPath = module.exports.buildPath = function (remotePath, packageName, targetNapi) {
 
-    return Path.join(remotePath, packageName)
-        .split('/')
+    return remotePath.split('/').concat(packageName.split('/'))
         .map((str) => resolve(str, targetNapi))
+        .filter((x) => x && x !== '.' && x !== '..')
         .join('/');
 }
 
@@ -63,7 +63,13 @@ module.exports.download = function (binaryPart) {
 
     const path = buildPath(binaryPart.remote_path, binaryPart.package_name, binaryPart.napi_versions);
     const url = Path.join(binaryPart.host, path);
+    console.log('GET', url);
     Https.get(url, (res) => {
+
+        if (res.statusCode !== 200) {
+            console.error('Wrong status code when GET', url, res.statusCode);
+            process.exit(1);
+        }
 
         res.on('error', (e) => {
             console.error(e);
@@ -84,8 +90,8 @@ module.exports.getPath = function (binaryPart) {
     const moduleName = binaryPart.module_name;
     const targetNapi = binaryPart.napi_versions;
 
-    return './' + Path.join(modulePath, moduleName)
-        .split('/')
+    return './' + modulePath.split('/').concat(moduleName.split('/'))
+        .filter((x) => x && x !== '.' && x !== '..')
         .map((str) => resolve(str, targetNapi))
         .join('/');
 };
