@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI
+name: Unit tests
 
 on:
   push:
@@ -10,15 +10,13 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  test-unit:
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
-        os: [windows-latest, windows-2019, ubuntu-latest, ubuntu-16.04, macos-latest]
-        node-version: [4.0.0, 4.x, 5.0.0, 5.x, 6.0.0, 6.x, 7.0.0, 7.x, 8.0.0, 8.x, 9.0.0, 9.x, 10.0.0, 10.x, 11.0.0, 11.x, 12.0.0, 12.x, 13.0.0, 13.x, 14.0.0, 14.x]
-
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        # node 5 and 6.0.0 are excluded, it seems npm has issues there
+        node-version: [4.0.0, 4.x, 6.x, 7.0.0, 7.x, 8.0.0, 8.x, 9.0.0, 9.x, 10.0.0, 10.x, 11.0.0, 11.x, 12.0.0, 12.x, 13.0.0, 13.x, 14.0.0, 14.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -26,6 +24,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
-    - run: npm test
+    - run: npm run test-unit
       env:
         CI: true
+#    - run: npm run test-e2e
+#      env:
+#        CI: true

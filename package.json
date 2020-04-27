@@ -7,7 +7,9 @@
     "binary-downloader": "bin/binary-downloader.js"
   },
   "scripts": {
-    "test": "tape"
+    "test-unit": "./node_modules/.bin/tape tests/**/*.js tests/*.js",
+    "test-e2e": "node e2e/notfound/run.js && node e2e/subinstall/run.js",
+    "test": "npm run test-unit && npm run test-e2e"
   },
   "repository": {
     "type": "git",
