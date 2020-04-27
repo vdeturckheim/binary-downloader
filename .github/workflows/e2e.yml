@@ -26,7 +26,7 @@ jobs:
     - run: npm run test-e2e
       env:
         CI: true
-  test-e2e:
+  test-e2e-others:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
