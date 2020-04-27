@@ -1,0 +1,45 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: E2E tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test-e2e-win:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        # the test lib is not built for node < 8 on Win
+        node-version: [8.x, 9.x, 10.0.0, 10.x, 11.0.0, 11.x, 12.0.0, 12.x, 13.0.0, 13.x, 14.0.0, 14.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm run test-e2e
+      env:
+        CI: true
+  test-e2e-others:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        # node 5 and 6.0.0 are excluded, it seems npm has issues there
+        node-version: [4.x, 6.x, 7.0.0, 7.x, 8.0.0, 8.x, 9.x, 10.0.0, 10.x, 11.0.0, 11.x, 12.0.0, 12.x, 13.0.0, 13.x, 14.0.0, 14.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm run test-e2e
+      env:
+        CI: true

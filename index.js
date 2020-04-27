@@ -39,7 +39,7 @@ const resolve = function (str, targetNapi) {
         str = str.replace(/{platform}/, Os.platform());
     }
     if (str.includes('{libc}')) {
-        str = str.replace(/{libc}/, Libc.version || 'unknown')
+        str = str.replace(/{libc}/, Libc.family || 'unknown')
     }
     if (str.includes('{arch}')) {
         str = str.replace(/{arch}/, Os.arch)
@@ -62,7 +62,7 @@ const buildPath = module.exports.buildPath = function (remotePath, packageName, 
 module.exports.download = function (binaryPart) {
 
     const path = buildPath(binaryPart.remote_path, binaryPart.package_name, binaryPart.napi_versions);
-    const url = Path.join(binaryPart.host, path);
+    const url = binaryPart.host + path;
     console.log('GET', url);
     Https.get(url, (res) => {
 
