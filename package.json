@@ -1,6 +1,6 @@
 {
   "name": "binary-downloader",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Binary downloader - node-pre-gyp without node-gyp step",
   "main": "index.js",
   "bin": {
