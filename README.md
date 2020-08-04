@@ -35,6 +35,15 @@ const Binding = require(binding_path);
 (You are, of courses, free to get the `binary` part of the `package.json` by any
 other way that works for you!);
 
+## Proxy support
+
+This module supports https proxy. If an URL is present in the `https_proxy`, the 
+`HTTPS_PROXY` or the `npm_config_proxy` environment variable, the download
+of the binary will be done through this URL using the `https-proxy-agent`
+module.
+Alternatively, using `http_proxy` or `HTTPS_PROXY` environment variables will
+use the `http-proxy-agent` module.
+
 ## Differences with node-pre-gyp
 
 The great [node-pre-gyp](TODO) module can handle the lifecycle of a native
