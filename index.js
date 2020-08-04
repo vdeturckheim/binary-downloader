@@ -7,6 +7,7 @@ const Os = require('os');
 const Libc = require('detect-libc');
 const Tar = require('tar');
 const APIVerions = require('./lib/nodeABI');
+const Url = require('url');
 
 /**
  *
@@ -58,13 +59,14 @@ const buildPath = module.exports.buildPath = function (remotePath, packageName, 
         .map((str) => resolve(str, targetNapi))
         .filter((x) => x && x !== '.' && x !== '..')
         .join('/');
-}
+};
 
 module.exports.download = function (binaryPart) {
 
-    let clientLib = Https;
     const httpsProxyURL = process.env.HTTPS_PROXY || process.env.https_proxy || process.env.npm_config_proxy;
     const httpProxyURL = process.env.HTTP_PROXY || process.env.http_proxy;
+    const clientLib = httpsProxyURL ? Https : Http;
+    const defaultPort = httpsProxyURL ? 443 : 80;
 
     const options = {};
     if (httpsProxyURL) {
@@ -74,13 +76,19 @@ module.exports.download = function (binaryPart) {
     if (httpProxyURL) {
         const HttpProxyAgent = require('http-proxy-agent');
         options.agent = new HttpProxyAgent(httpProxyURL);
-        clientLib = Http;
     }
 
     const path = buildPath(binaryPart.remote_path, binaryPart.package_name, binaryPart.napi_versions);
     const url = binaryPart.host + path;
+
+    const parsedUrl = Url.parse(url);
+
+    options.host = parsedUrl.host;
+    options.path = parsedUrl.path;
+    options.port = parsedUrl.port || defaultPort;
+
     console.log('GET', url);
-    clientLib.get(url, options, (res) => {
+    clientLib.get(options, (res) => {
 
         if (res.statusCode !== 200) {
             console.error('Wrong status code when GET', url, res.statusCode);

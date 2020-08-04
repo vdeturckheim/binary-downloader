@@ -39,7 +39,7 @@ other way that works for you!);
 
 This module supports https proxy. If an URL is present in the `https_proxy`, the 
 `HTTPS_PROXY` or the `npm_config_proxy` environment variable, the download
-of the binary will be done thorough this URL using the `https-proxy-agent`
+of the binary will be done through this URL using the `https-proxy-agent`
 module.
 Alternatively, using `http_proxy` or `HTTPS_PROXY` environment variables will
 use the `http-proxy-agent` module.
