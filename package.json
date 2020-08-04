@@ -24,6 +24,8 @@
   "homepage": "https://github.com/vdeturckheim/binary-downloader#readme",
   "dependencies": {
     "detect-libc": "^1.0.3",
+    "http-proxy-agent": "^4.0.1",
+    "https-proxy-agent": "^5.0.0",
     "semver": "^6.3.0",
     "tar": "^4.4.13"
   },

@@ -1,6 +1,7 @@
 'use strict';
 const Path = require('path');
 const Https = require('https');
+const Http = require('http');
 const Fs = require('fs');
 const Os = require('os');
 const Libc = require('detect-libc');
@@ -61,10 +62,25 @@ const buildPath = module.exports.buildPath = function (remotePath, packageName, 
 
 module.exports.download = function (binaryPart) {
 
+    let clientLib = Https;
+    const httpsProxyURL = process.env.HTTPS_PROXY || process.env.https_proxy || process.env.npm_config_proxy;
+    const httpProxyURL = process.env.HTTP_PROXY || process.env.http_proxy;
+
+    const options = {};
+    if (httpsProxyURL) {
+        const HttpsProxyAgent = require('https-proxy-agent');
+        options.agent = new HttpsProxyAgent(httpsProxyURL);
+    }
+    if (httpProxyURL) {
+        const HttpProxyAgent = require('http-proxy-agent');
+        options.agent = new HttpProxyAgent(httpProxyURL);
+        clientLib = Http;
+    }
+
     const path = buildPath(binaryPart.remote_path, binaryPart.package_name, binaryPart.napi_versions);
     const url = binaryPart.host + path;
     console.log('GET', url);
-    Https.get(url, (res) => {
+    clientLib.get(url, options, (res) => {
 
         if (res.statusCode !== 200) {
             console.error('Wrong status code when GET', url, res.statusCode);
