@@ -46,7 +46,7 @@ use the `http-proxy-agent` module.
 
 ## Differences with node-pre-gyp
 
-The great [node-pre-gyp](TODO) module can handle the lifecycle of a native
+The great [node-pre-gyp](https://github.com/mapbox/node-pre-gyp) module can handle the lifecycle of a native
 module. It can help publishing it. It allows falling back on building the module
 locally if download failed and many more.
 
